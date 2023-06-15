@@ -7,6 +7,11 @@ from sklearn import linear_model
 import statsmodels.api as sm
 from itertools import combinations
 
+
+import plotly.express as px
+from plotly.subplots import make_subplots
+import plotly.graph_objects as go
+
 def load_data():
     st.write("Upload a csv file")
     uploaded_file = st.file_uploader("Choose a file",'csv')
@@ -93,7 +98,11 @@ def main():
                 fig = plt.figure(figsize=(10,5))
                 sns.lineplot(data=df[options])
                 sns.set_theme()
-                st.pyplot(fig)
+                fig2 = px.line(df[options])
+                st.plotly_chart(fig2)
+                
+
+                #st.pyplot(fig2)
             except:
                 pass
 
@@ -101,13 +110,19 @@ def main():
             st.write(df.corr(numeric_only=True))
 
             st.subheader("Heat Map")
-            fig = plt.figure(figsize=(10,5))
-            sns.heatmap(df.corr(numeric_only=True), annot=True, cmap='Blues')
-            st.pyplot(fig)
+            #fig = plt.figure(figsize=(10,5))
+            #sns.heatmap(df.corr(numeric_only=True), annot=True, cmap='Blues')
+            fig = px.imshow(df.corr(numeric_only=True), text_auto=True,template='ggplot2')
+            fig.update_layout(
+            margin=dict(l=20, r=20, t=20, b=20)
+            )
+
+            st.plotly_chart(fig)
 
             st.subheader("Pair Plot")
             fig = plt.figure(figsize=(10,5))
             fig = sns.pairplot(df,height=2.5)
+            
             st.pyplot(fig)
 
             st.header("Regression")
