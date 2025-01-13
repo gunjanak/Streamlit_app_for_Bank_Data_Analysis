@@ -164,7 +164,7 @@ def for_pytorch():
     st.pyplot(fig)
     
     # Create the figure
-    fig, axes = plt.subplots()  # 3 rows, 5 columns
+    fig, ax = plt.subplots()  # 3 rows, 5 columns
     # axes = axes.flatten()
     print(interval_prediction[3])
     ax.scatter(X[:, 0], X[:, 1], c=interval_prediction[3], cmap='viridis')
