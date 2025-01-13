@@ -166,12 +166,14 @@ def for_pytorch():
     # Create the figure
     fig, axes = plt.subplots(3, 5, figsize=(16, 8))  # 3 rows, 5 columns
     axes = axes.flatten()
-    for i, ax in enumerate(axes):
-        epoch = i * 10
-        ax.scatter(X[:, 0], X[:, 1], c=interval_prediction[i], cmap='viridis')
-        ax.set_title(f"After {epoch} epochs", fontsize=10)
-        ax.set_xticks([])  # Optional: Remove x-axis ticks for cleaner look
-        ax.set_yticks([])  # Optional: Remove y-axis ticks for cleaner look
+    ax.scatter(X[:, 0], X[:, 1], c=interval_prediction[3], cmap='viridis')
+    ax.set_title(f"After {epoch} epochs", fontsize=10)
+    # for i, ax in enumerate(axes):
+    #     epoch = i * 10
+    #     ax.scatter(X[:, 0], X[:, 1], c=interval_prediction[i], cmap='viridis')
+    #     ax.set_title(f"After {epoch} epochs", fontsize=10)
+    #     ax.set_xticks([])  # Optional: Remove x-axis ticks for cleaner look
+    #     ax.set_yticks([])  # Optional: Remove y-axis ticks for cleaner look
 
     # Adjust layout
     plt.tight_layout()
