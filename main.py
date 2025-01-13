@@ -164,7 +164,7 @@ def for_pytorch():
     st.pyplot(fig)
     
     # Create the figure
-    fig, axes = plt.subplots(3, 5, figsize=(16, 8))  # 3 rows, 5 columns
+    fig, axes = plt.subplots()  # 3 rows, 5 columns
     axes = axes.flatten()
     ax.scatter(X[:, 0], X[:, 1], c=interval_prediction[3], cmap='viridis')
     ax.set_title(f"After {epoch} epochs", fontsize=10)
