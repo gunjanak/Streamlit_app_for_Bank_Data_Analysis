@@ -175,7 +175,7 @@ def for_pytorch():
 
     # Adjust layout
     plt.tight_layout()
-    fig.colorbar(scatter, ax=axes, location='right', fraction=0.02, pad=0.1)
+    # fig.colorbar(scatter, ax=axes, location='right', fraction=0.02, pad=0.1)
 
     # Display in Streamlit
     st.pyplot(fig)
