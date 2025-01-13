@@ -164,24 +164,29 @@ def for_pytorch():
     st.pyplot(fig)
     
     # Create the figure
-    fig, axes = plt.subplots()  # 3 rows, 5 columns
-    # axes = axes.flatten()
-    print(interval_prediction[3])
-    # ax.scatter(X[:, 0], X[:, 1], c=interval_prediction[3], cmap='viridis')
-    ax.set_title(f"After {epoch} epochs", fontsize=10)
-    for i, ax in enumerate(axes):
-        epoch = i * 10
-        ax.scatter(X[:, 0], X[:, 1], c=interval_prediction[i], cmap='viridis')
-        ax.set_title(f"After {epoch} epochs", fontsize=10)
-        ax.set_xticks([])  # Optional: Remove x-axis ticks for cleaner look
-        ax.set_yticks([])  # Optional: Remove y-axis ticks for cleaner look
-
-    # Adjust layout
-    plt.tight_layout()
-    # fig.colorbar(scatter, ax=axes, location='right', fraction=0.02, pad=0.1)
-
-    # Display in Streamlit
+    epoch = st.slider("Select Epoch", 0, 100, 0, step=10)
+    fig, ax = plt.subplots(figsize=(8, 4))
+    ax.scatter(X[:, 0], X[:, 1], c=interval_prediction[epoch // 10], cmap='viridis')
+    ax.set_title(f"After {epoch} epochs")
     st.pyplot(fig)
+    # fig, axes = plt.subplots()  # 3 rows, 5 columns
+    # # axes = axes.flatten()
+    # print(interval_prediction[3])
+    # # ax.scatter(X[:, 0], X[:, 1], c=interval_prediction[3], cmap='viridis')
+    # ax.set_title(f"After {epoch} epochs", fontsize=10)
+    # for i, ax in enumerate(axes):
+    #     epoch = i * 10
+    #     ax.scatter(X[:, 0], X[:, 1], c=interval_prediction[i], cmap='viridis')
+    #     ax.set_title(f"After {epoch} epochs", fontsize=10)
+    #     ax.set_xticks([])  # Optional: Remove x-axis ticks for cleaner look
+    #     ax.set_yticks([])  # Optional: Remove y-axis ticks for cleaner look
+
+    # # Adjust layout
+    # plt.tight_layout()
+    # # fig.colorbar(scatter, ax=axes, location='right', fraction=0.02, pad=0.1)
+
+    # # Display in Streamlit
+    # st.pyplot(fig)
         
     
     
