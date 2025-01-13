@@ -168,7 +168,7 @@ def for_pytorch():
     axes = axes.flatten()
     for i, ax in enumerate(axes):
         epoch = i * 10
-        scatter = ax.scatter(X[:, 0], X[:, 1], c=interval_prediction[i], cmap='viridis')
+        ax.scatter(X[:, 0], X[:, 1], c=interval_prediction[i], cmap='viridis')
         ax.set_title(f"After {epoch} epochs", fontsize=10)
         ax.set_xticks([])  # Optional: Remove x-axis ticks for cleaner look
         ax.set_yticks([])  # Optional: Remove y-axis ticks for cleaner look
