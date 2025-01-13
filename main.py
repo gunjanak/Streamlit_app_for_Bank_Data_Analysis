@@ -191,13 +191,15 @@ def main():
             st.write(model.pvalues)
             st.write("Checking if all pvalues are below 0.05")
             check_values = lambda lst: all(value < 0.05 for value in lst)
+            st.write("Check values")
+            st.write(check_values)
             if (check_values):
                 we_found_our_model = True
                 st.write("P-values for all parametes are below 0.05")
                 st.write(model.params)
                 st.write(model.params[0])
-                final_euqation = f'ROE = {round(model.params[0],3)}{round(model.params[1],3)}x ({main_parameters[0]}){round(model.params[2],3)}x ({main_parameters[1]}){round(model.params[3],3)}x ({main_parameters[2]})'
-                st.write(final_euqation)
+                #final_euqation = f'ROE = {round(model.params[0],3)}{round(model.params[1],3)}x ({main_parameters[0]}){round(model.params[2],3)}x ({main_parameters[1]}){round(model.params[3],3)}x ({main_parameters[2]})'
+                #st.write(final_euqation)
 
             if(we_found_our_model == False):
 
