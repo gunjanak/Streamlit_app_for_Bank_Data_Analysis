@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 from sklearn import linear_model
 import statsmodels.api as sm
 from itertools import combinations
-
+import torch
 
 import plotly.express as px
 from plotly.subplots import make_subplots
@@ -40,6 +40,7 @@ def read_data(uploaded_file):
 def main():
 
     global output_df
+    st.write(torch.__version__)
     st.title("Bank Data Analysis")
     status = False
     set_index  = False
