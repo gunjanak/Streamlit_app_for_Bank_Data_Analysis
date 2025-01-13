@@ -7,10 +7,51 @@ from sklearn import linear_model
 import statsmodels.api as sm
 from itertools import combinations
 import torch
+import torch.nn as nn
+from torch.optim import Adam
 
 import plotly.express as px
 from plotly.subplots import make_subplots
 import plotly.graph_objects as go
+
+def accuracy(Y,z):
+  #returs accuracy and y_hat
+  y_hat = torch.round(z.data)
+  is_correct = y_hat==Y
+  is_correct = is_correct.numpy().tolist()
+  # print(is_correct)
+  val_epoch_accuracies = np.mean(is_correct)
+  Y_hat = y_hat.data.numpy()
+  list_to_return = [val_epoch_accuracies,y_hat]
+  return list_to_return
+
+
+class MyNeuralNet(nn.Module):
+  def __init__(self):
+    super().__init__()
+    #define the hidden layer
+    self.input_to_hidden_layer = nn.Linear(2,8)
+    #define activation function of hidden Layer
+    self.hidden_layer_activation = nn.ReLU()
+
+    #define hidden layer
+    self.hidden_layer_to_hidden_layer = nn.Linear(8,8)
+
+    #define ourput layer
+    self.hidden_to_output_layer = nn.Linear(8,1)
+
+    #define activation function to ouput layer
+    self.output_layer_activation = nn.Sigmoid()
+
+  #Define feed forward network based on above definitions
+  def forward(self,x):
+    x = self.input_to_hidden_layer(x)
+    x = self.hidden_layer_activation(x)
+    x = self.hidden_layer_to_hidden_layer(x)
+    x = self.hidden_layer_activation(x)
+    x = self.hidden_to_output_layer(x)
+    x = self.output_layer_activation(x)
+    return x
 
 def load_data():
     st.write("Upload a csv file")
@@ -37,10 +78,91 @@ def read_data(uploaded_file):
     return df
 
 
+def for_pytorch():
+    the_file = "circles.csv"
+    circles = pd.read_csv(the_file)
+    x1 = circles['X1'].values
+    x2 = circles['X2'].values
+    y = circles['Y'].values
+    #combining two inputs in one
+    x = [x1,x2]
+    X = torch.Tensor(x)
+    Y = torch.Tensor(y)
+    print(f"Size of X: {X.size()}")
+    #Trasposing input
+    X = torch.transpose(X,0,1)
+    print(f"New size of X: {X.size()}")
+
+    #preparing output for neural network
+    print(f"Size of Y: {Y.size()}")
+    Y = torch.unsqueeze(Y,1)
+    print(f"Size of Y: {Y.size()}")
+    
+    
+    mynet = MyNeuralNet()
+    
+    
+    #Binary cross entropy
+    loss_func = torch.nn.BCELoss()
+    
+    
+    opt = Adam(mynet.parameters(),lr=0.01)
+    
+    loss_history = []
+    accuracy_history = []
+    interval_prediction = []
+    epochs = 101
+
+    for epoch in range(epochs):
+        opt.zero_grad()
+
+        #feeding data to network
+        z = mynet(X)
+
+        #calculating accuracy
+        acc = accuracy(Y,z)
+
+        #Accuracy after each epoch
+        accuracy_epoch = acc[0]
+
+        #Network prediction after each epoch
+        y_hat = acc[1]
+
+        #Calculating loss
+        loss_value = loss_func(z,Y)
+
+        #backpropagation
+        loss_value.backward()
+
+        #perform a single optimization step (parameter update)
+        opt.step()
+
+        #converting loss_value to numpy
+        loss_value = loss_value.data.numpy()
+
+        #Appending loss_value to loss_history
+        loss_history.append(loss_value)
+
+        #Appending accuracy_epoch to accuracy_history
+        st.write(accuracy_epoch)
+        accuracy_history.append(accuracy_epoch)
+
+        #collecting predicted values after 10th epoch
+        if(epoch%10 == 0):
+            interval_prediction.append(y_hat)
+    
+    
+    
+    
+    
+    
+    
+    
 def main():
 
     global output_df
     st.write(torch.__version__)
+    for_pytorch()
     st.title("Bank Data Analysis")
     status = False
     set_index  = False
